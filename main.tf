@@ -1,35 +1,33 @@
-#congifure the provider
 provider "aws" {
-  # 不指定 region，让 AWS Provider 从环境变量 AWS_REGION 读取
+  # region 从环境变量 AWS_REGION 读取
 }
 
-resource "aws_vpc" "vpc_dev" {  
-    cidr_block = "10.0.0.0/16"
-    tags = {
-        Name:"VPC_dev"
-        owner:"april"
-    }                  #加了名字, owner tag
+# 动态查询最新的 Amazon Linux 2023 AMI
+data "aws_ami" "al2023" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023.*-x86_64"]
+  }
+
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
 }
 
-resource "aws_subnet" "subnet_01" {
-    vpc_id = aws_vpc.vpc_dev.id  #引用还没生成的vpc的id
-    cidr_block = "10.0.10.0/24"
-    availability_zone = "us-east-1a"
-        tags = {
-        Name:"subnet_01_dev"
-    }
-}
+module "ec2_example" {
+  source = "./modules/ec2"
 
-data "aws_vpc" "exsiting_vpc" {
-    default = false
-    cidr_block = "10.0.0.0/16"
-}
+  name        = "my-instance"
+  ami_id      = data.aws_ami.al2023.id  # 自动获取最新 AL2023
+  subnet_id   = "subnet-0fcb87ab84b39a2ce"
+  cost_center = "team-backend"          # 必填，不传会报错
 
-resource "aws_subnet" "subnet_02" {
-    vpc_id = data.aws_vpc.exsiting_vpc.id  #引用query到的vpc id
-    cidr_block = "10.0.5.0/24"
-    availability_zone = "us-east-1a"
-        tags = {
-        Name:"subnet_02_dev"
-    }
+  # extra_tags 可选
+  extra_tags = {
+    Environment = "dev"
+  }
 }
