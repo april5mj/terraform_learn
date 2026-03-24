@@ -21,13 +21,13 @@ resource "aws_subnet" "subnet_01" {
 }
 
 data "aws_vpc" "exsiting_vpc" {
-    default = false
-    cidr_block = "172.31.0.0/16"
+    default = true
+    cidr_block = "10.0.0.0/16"
 }
 
 resource "aws_subnet" "subnet_02" {
     vpc_id = data.aws_vpc.exsiting_vpc.id  #引用query到的vpc id
-    cidr_block = "172.31.5.0/24"
+    cidr_block = "10.0.5.0/24"
     availability_zone = "us-east-1a"
         tags = {
         Name:"subnet_02_dev"
