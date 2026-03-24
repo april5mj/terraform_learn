@@ -1,6 +1,6 @@
 #congifure the provider
 provider "aws" {
-  region = var.region
+  # 不指定 region，让 AWS Provider 从环境变量 AWS_REGION 读取
 }
 
 resource "aws_vpc" "vpc_dev" {  
