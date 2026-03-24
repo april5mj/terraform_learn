@@ -7,7 +7,7 @@ resource "aws_vpc" "vpc_dev" {
     cidr_block = "10.0.0.0/16"
     tags = {
         Name:"VPC_dev"
-        owner:"spsapr"
+        owner:"april"
     }                  #加了名字, owner tag
 }
 
