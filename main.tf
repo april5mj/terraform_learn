@@ -1,13 +1,3 @@
-terraform {
-  cloud {
-    organization = "Coach-learn"
-
-    workspaces {
-      name = "terraform_learn"
-    }
-  }
-}
-
 provider "aws" {
   # region 从环境变量 AWS_REGION 读取
 }
