@@ -1,0 +1,39 @@
+name: PR to Main
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  terraform-plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # 需要这个权限来获取 OIDC token
+      contents: read
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::272330826536:role/CloudTerraformRole
+          aws-region: us-east-1
+          role-session-name: GitHubActions-TerraformPlan
+          
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.7
+          
+      - name: Terraform Init
+        run: terraform init
+          
+      - name: Terraform Plan
+        run: terraform plan -no-color
