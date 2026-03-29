@@ -21,6 +21,7 @@ data "aws_ami" "al2023" {
 module "ec2_example" {
   source = "app.terraform.io/Coach-learn/ec2/aws"
   #"./modules/ec2"
+  version = "1.0.0" 
   name        = "april5-instance"
   ami_id      = data.aws_ami.al2023.id  # 自动获取最新 AL2023
   subnet_id   = "subnet-0fcb87ab84b39a2ce"

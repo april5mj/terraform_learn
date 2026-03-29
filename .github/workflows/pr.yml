@@ -23,6 +23,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
           role-to-assume: arn:aws:iam::272330826536:role/CloudTerraformRole
           aws-region: us-east-1
           role-session-name: GitHubActions-TerraformPlan
