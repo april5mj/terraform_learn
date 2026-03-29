@@ -19,9 +19,9 @@ data "aws_ami" "al2023" {
 }
 
 module "ec2_example" {
-  source = "app.terraform.io/Coach-learn/ec2/aws"
+  source = "git::https://github.com/april5mj/terraform_learn.git//modules/ec2?ref=main"
   #"./modules/ec2"
-  name        = "april-instance"
+  name        = "april5-instance"
   ami_id      = data.aws_ami.al2023.id  # 自动获取最新 AL2023
   subnet_id   = "subnet-0fcb87ab84b39a2ce"
   cost_center = "team-backend"          # 必填，不传会报错
