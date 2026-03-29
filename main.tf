@@ -19,7 +19,8 @@ data "aws_ami" "al2023" {
 }
 
 module "ec2_example" {
-  source = "git::https://github.com/april5mj/terraform_learn.git//modules/ec2?ref=main"
+  source = "app.terraform.io/Coach-learn/ec2/aws"
+  #"git::https://github.com/april5mj/terraform_learn.git//modules/ec2?ref=main"
   #"./modules/ec2"
   name        = "april5-instance"
   ami_id      = data.aws_ami.al2023.id  # 自动获取最新 AL2023
