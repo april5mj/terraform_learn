@@ -32,3 +32,4 @@ module "ec2_example" {
     Environment = "dev"
   }
 }
+
